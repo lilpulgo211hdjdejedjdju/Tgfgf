@@ -21,7 +21,9 @@ RUN apt-get update -yq --fix-missing \
     cmake \
     curl \
     git \
-    vim
+    vim \
+    python3 \
+    python3-pip
 
 # Download and install Miniconda
 RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
@@ -38,8 +40,6 @@ RUN ~/miniconda3/bin/conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolk
 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 
 # Install requirements
-
-
 RUN ~/miniconda3/envs/nerfstream/bin/pip install -r requirements.txt
 
 # Install additional libraries
@@ -54,13 +54,10 @@ RUN ~/miniconda3/envs/nerfstream/bin/pip install protobuf==3.20.1
 RUN ~/miniconda3/bin/conda install -c conda-forge ffmpeg -n nerfstream -y
 
 # Copy application files
-#COPY ./python_rtmpstream /app/python_rtmpstream
-RUN ~/miniconda3/envs/nerfstream/bin/pip install /app/python_rtmpstream
-
-#COPY ./nerfstream /nerfstream
+RUN ~/miniconda3/envs/nerfstream/bin/pip install /
 
 # Expose ports
 EXPOSE 1935 8080 1985 8000
 
 # Define the command to run the application
-CMD ["~/miniconda3/envs/nerfstream/bin/python", "/app/nerfstream/app.py"]
+CMD ["~/miniconda3/envs/nerfstream/bin/python", "/nerfstream/app.py"]
