@@ -12,6 +12,8 @@ FROM $BASE_IMAGE
 
 WORKDIR /
 
+COPY . .
+
 RUN apt-get update -yq --fix-missing \
  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     pkg-config \
@@ -36,7 +38,7 @@ RUN ~/miniconda3/bin/conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolk
 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 
 # Install requirements
-COPY .. /
+
 
 RUN ~/miniconda3/envs/nerfstream/bin/pip install -r requirements.txt
 
