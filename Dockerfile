@@ -10,6 +10,8 @@
 ARG BASE_IMAGE=nvcr.io/nvidia/cuda:11.6.1-cudnn8-devel-ubuntu20.04
 FROM $BASE_IMAGE
 
+WORKDIR /
+
 RUN apt-get update -yq --fix-missing \
  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     pkg-config \
@@ -34,7 +36,8 @@ RUN ~/miniconda3/bin/conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolk
 RUN pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
 
 # Install requirements
-COPY requirements.txt ./
+COPY .. /
+
 RUN ~/miniconda3/envs/nerfstream/bin/pip install -r requirements.txt
 
 # Install additional libraries
@@ -49,15 +52,13 @@ RUN ~/miniconda3/envs/nerfstream/bin/pip install protobuf==3.20.1
 RUN ~/miniconda3/bin/conda install -c conda-forge ffmpeg -n nerfstream -y
 
 # Copy application files
-COPY ../python_rtmpstream /python_rtmpstream
-WORKDIR /python_rtmpstream/python
-RUN ~/miniconda3/envs/nerfstream/bin/pip install .
+#COPY ./python_rtmpstream /app/python_rtmpstream
+RUN ~/miniconda3/envs/nerfstream/bin/pip install /app/python_rtmpstream
 
-WORKDIR /nerfstream
-COPY /nerfstream /nerfstream
+#COPY ./nerfstream /nerfstream
 
 # Expose ports
 EXPOSE 1935 8080 1985 8000
 
 # Define the command to run the application
-CMD ["~/miniconda3/envs/nerfstream/bin/python", "app.py"]
+CMD ["~/miniconda3/envs/nerfstream/bin/python", "/app/nerfstream/app.py"]
