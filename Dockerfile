@@ -54,7 +54,7 @@ WORKDIR /python_rtmpstream/python
 RUN ~/miniconda3/envs/nerfstream/bin/pip install .
 
 WORKDIR /nerfstream
-COPY .. /nerfstream
+COPY /nerfstream /nerfstream
 
 # Expose ports
 EXPOSE 1935 8080 1985 8000
