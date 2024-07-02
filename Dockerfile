@@ -53,7 +53,7 @@ COPY ../python_rtmpstream /python_rtmpstream
 WORKDIR /python_rtmpstream/python
 RUN ~/miniconda3/envs/nerfstream/bin/pip install .
 
-COPY ../nerfstream /nerfstream
+COPY ./nerfstream /nerfstream
 WORKDIR /nerfstream
 
 # Expose ports
