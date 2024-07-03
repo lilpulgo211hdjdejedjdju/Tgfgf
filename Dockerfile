@@ -15,7 +15,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+# Update package lists and install dependencies
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -yq \
     pkg-config \
     wget \
     cmake \
@@ -50,3 +51,5 @@ EXPOSE 1935 8080 1985 8000
 
 # Define the command to run the application
 CMD ["python3", "app.py"]
+
+# conda
