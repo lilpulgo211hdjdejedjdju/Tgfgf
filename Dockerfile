@@ -56,8 +56,11 @@ RUN ~/miniconda3/bin/conda install -c conda-forge ffmpeg -n nerfstream -y
 # Copy application files
 RUN ~/miniconda3/envs/nerfstream/bin/pip install /
 
+# Set the working directory to /app
+WORKDIR /app
+
 # Expose ports
 EXPOSE 1935 8080 1985 8000
 
 # Define the command to run the application
-CMD ["~/miniconda3/envs/nerfstream/bin/python", "/nerfstream/app.py", "--transport", "webrtc", "--fullbody", "--fullbody_img", "data/fullbody/img", "--fullbody_offset_x", "100", "--fullbody_offset_y", "5", "--fullbody_width", "580", "--fullbody_height", "1080", "--W", "400", "--H", "400", "--bg_img", "bc.jpg", "--asr_model", "facebook/hubert-large-ls960-ft", "--tts", "xtts", "--REF_FILE", "data/ref.wav", "--TTS_SERVER", "http://localhost:9000", "--transport", "rtmp", "--push_url", "rtmp://localhost/live/livestream", "--customvideo", "--customvideo_img", "data/customvideo/img", "--customvideo_imgnum", "100"]
+CMD ["~/miniconda3/envs/nerfstream/bin/python", "app.py"]
